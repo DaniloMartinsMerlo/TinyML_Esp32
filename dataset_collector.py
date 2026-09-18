@@ -1,10 +1,10 @@
 """
-receiver.py — Recebe WAV de 60s do ESP32 pelo serial
+dataset_collector.py — Recebe WAV de 60s do ESP32 pelo serial
 
 Uso:
     pip install pyserial
-    python receiver.py --port /dev/ttyUSB0 --out gravacao.wav
-    python receiver.py --port COM3 --out gravacao.wav   (Windows)
+    python dataset_collector.py --port /dev/ttyUSB0 --out gravacao.wav
+    python dataset_collector.py --port COM3 --out gravacao.wav   (Windows)
 
 IMPORTANTE: feche o Arduino Serial Monitor antes de rodar.
 """
