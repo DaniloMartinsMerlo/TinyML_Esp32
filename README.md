@@ -1,6 +1,6 @@
 # TinyML no ESP32 — Reconhecimento e Classificação de Áudio com Edge Impulse e FreeRTOS
 
-Sistema embarcado em tempo real para detecção e classificação de comandos de voz / eventos acústicos executado em um **ESP32**, integrado a um microfone digital I2S (**INMP441**) e atuadores físicos (módulo relé e LEDs indicadores). O processamento utiliza modelos quantizados gerados via **Edge Impulse**, estruturado em uma arquitetura multitarefa e multicore com **FreeRTOS**.
+Sistema embarcado em tempo real q detecção e classificação de comandos de voz / eventos acústicos executado em um **ESP32**, integrado a um microfone digital I2S (**INMP441**) e atuadores físicos (módulo relé e LEDs indicadores). O processamento utiliza modelos quantizados gerados via **Edge Impulse**, estruturado em uma arquitetura multitarefa e multicore com **FreeRTOS**.
 
 ---
 
@@ -22,9 +22,10 @@ TinyML_Esp32/
 │   └── classification.ino      # Firmware principal: inferência TinyML com FreeRTOS multicore
 ├── recorder/
 │   └── recorder.ino            # Firmware para coleta: grava 60s a 16 kHz e envia WAV via serial
+├── model/
+│   └── kabum_model.tflite      # Modelo quantizado TensorFlow Lite para microcontroladores  
+│   └── kabum_model.onnx        # Modelo em formato aberto ONNX (para validação/entregáveis)
 ├── dataset_collector.py        # Script Python para recepção serial do áudio e geração de .wav
-├── kabum_model.tflite          # Modelo quantizado TensorFlow Lite para microcontroladores
-├── kabum_model.onnx            # Modelo em formato aberto ONNX (para validação/entregáveis)
 ├── lib.zip                     # Biblioteca C++ do Edge Impulse pronta para Arduino IDE (Kabum_inferencing)
 └── README.md                   # Documentação completa do projeto
 ```
@@ -172,7 +173,7 @@ sequenceDiagram
 
 ### 1. Pré-requisitos
 - [Arduino IDE](https://www.arduino.cc/en/software) (versão 2.x recomendada).
-- Pacote de suporte às placas ESP32 instalado no Gerenciador de Placas (`esp32` por Espressif Systems).
+- Pacote de suporte às placas ESP32 instalado no Gerenciador de Placas
 - Cabo Micro-USB / USB-C para comunicação e gravação.
 
 ### 2. Instalação da Biblioteca TinyML (`lib.zip`)
@@ -184,7 +185,7 @@ O arquivo `lib.zip` contém a biblioteca exportada do Edge Impulse com o modelo 
 
 ### 3. Compilação e Gravação
 1. Abra o arquivo `classification/classification.ino` na Arduino IDE.
-2. Selecione a sua placa: **ESP32 Dev Module** (ou modelo correspondente da sua placa).
+2. Selecione a sua placa: **ESP32 Dev Module**.
 3. Selecione a porta serial correta.
 4. Clique em **Upload**.
 
@@ -245,9 +246,3 @@ Task 3: AnomalyDetection  | P1 | Core 0
   - Cheque as conexões de `SCK (GPIO 26)`, `WS (GPIO 25)` e `SD (GPIO 33)`.
 - **Relé aciona no boot do ESP32**:
   - O código já inicia o pino em `HIGH` antes de definir `pinMode(RELE, OUTPUT)`. Caso utilize um relé *active-HIGH*, inverta as macros `RELE_ON` e `RELE_OFF` no início do `classification.ino`.
-
----
-
-## 👥 Autor e Contexto
-
-Desenvolvido por **Danilo Martins Merlo** no âmbito das atividades práticas de **TinyML e Sistemas Inteligentes Embarcados** (Inteli - M11).
